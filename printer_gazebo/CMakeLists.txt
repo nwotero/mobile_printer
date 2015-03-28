@@ -87,7 +87,7 @@ find_package(gazebo REQUIRED)
 ## DEPENDS: system dependencies of this project that dependent projects also need
 catkin_package(
   INCLUDE_DIRS include
-  LIBRARIES gazebo_ros_swerve_drive
+  LIBRARIES gazebo_ros_swerve_drive gazebo_ros_cylindrical_manipulator
   CATKIN_DEPENDS gazebo_ros gazebo_msgs geometry_msgs nav_msgs roscpp std_msgs tf angles urdf
   DEPENDS gazebo SDF
 )
@@ -108,6 +108,11 @@ add_library(gazebo_ros_swerve_drive
   src/gazebo_ros_swerve_drive.cpp
 )
 target_link_libraries(gazebo_ros_swerve_drive ${GAZEBO_LIBRARIES} ${catkin_LIBRARIES} ${Boost_LIBRARIES})
+
+add_library(gazebo_ros_cylindrical_manipulator
+  src/gazebo_ros_cylindrical_manipulator.cpp
+)
+target_link_libraries(gazebo_ros_cylindrical_manipulator ${GAZEBO_LIBRARIES} ${catkin_LIBRARIES} ${Boost_LIBRARIES})
 
 ## Declare a cpp executable
 # add_executable(printer_gazebo_node src/printer_gazebo_node.cpp)
