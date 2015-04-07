@@ -1,0 +1,43 @@
+<robot
+  name="MPO_700_wheel_simple.SLDPRT">
+  <link
+    name="MPO_700_wheel_simple.SLDPRT">
+    <inertial>
+      <origin
+        xyz="-3.9055E-18 0.015 -9.15652565366783E-19"
+        rpy="0 0 0" />
+      <mass
+        value="2.0333" />
+      <inertia
+        ixx="0.00427074582474934"
+        ixy="-3.96396622904897E-35"
+        ixz="-3.68776969402606E-20"
+        iyy="2.54641258221388E-19"
+        iyz="-0.00823979712112691"
+        izz="5.11383260843001E-19" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="1.5707963267949 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://MPO_700_wheel_simple.SLDPRT/meshes/MPO_700_wheel_simple.SLDPRT.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.86667 0.9098 1 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="1.5707963267949 0 0" />
+      <geometry>
+        <mesh
+          filename="package://MPO_700_wheel_simple.SLDPRT/meshes/MPO_700_wheel_simple.SLDPRT.STL" />
+      </geometry>
+    </collision>
+  </link>
+</robot>

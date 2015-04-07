@@ -1,0 +1,43 @@
+<robot
+  name="Arm_link3_simple.SLDPRT">
+  <link
+    name="Arm_link3_simple.SLDPRT">
+    <inertial>
+      <origin
+        xyz="0.35308 0.056975 4.58179999999965E-05"
+        rpy="0 0 0" />
+      <mass
+        value="31.843" />
+      <inertia
+        ixx="1.14535612773492"
+        ixy="1.9643002701591E-05"
+        ixz="-0.625467963004431"
+        iyy="7.53776259764366E-05"
+        iyz="-1.14069726824125"
+        izz="-7.53776259762299E-05" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="1.5707963267949 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://Arm_link3_simple.SLDPRT/meshes/Arm_link3_simple.SLDPRT.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.86667 0.9098 1 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="1.5707963267949 0 0" />
+      <geometry>
+        <mesh
+          filename="package://Arm_link3_simple.SLDPRT/meshes/Arm_link3_simple.SLDPRT.STL" />
+      </geometry>
+    </collision>
+  </link>
+</robot>

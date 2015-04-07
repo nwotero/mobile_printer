@@ -1,0 +1,232 @@
+<?xml version="1.0" ?>
+
+<robot name="mobile_printer" xmlns:xacro="http://www.ros.org/wiki/xacro">
+  
+  <gazebo reference="base_link">
+    <material>Gazebo/Orange</material>
+  </gazebo>
+  
+  <gazebo reference="shoulder_link">
+    <material>Gazebo/Red</material>
+  </gazebo>
+
+  <gazebo reference="prism_link">
+    <material>Gazebo/Orange</material>
+  </gazebo>
+  
+  <gazebo reference="elbow_link">
+    <material>Gazebo/Blue</material>
+  </gazebo>
+
+  <!-- Import Rviz colors -->
+  <material name="black">
+    <color rgba="0.0 0.0 0.0 1.0"/>
+  </material>
+  <material name="blue">
+    <color rgba="0.0 0.0 0.8 1.0"/>
+  </material>
+  <material name="green">
+    <color rgba="0.0 0.8 0.0 1.0"/>
+  </material>
+  <material name="grey">
+    <color rgba="0.2 0.2 0.2 1.0"/>
+  </material>
+  <material name="orange">
+    <color rgba="1.0 0.423529411765 0.0392156862745 1.0"/>
+  </material>
+  <material name="brown">
+    <color rgba="0.870588235294 0.811764705882 0.764705882353 1.0"/>
+  </material>
+  <material name="red">
+    <color rgba="0.8 0.0 0.0 1.0"/>
+  </material>
+  <material name="white">
+    <color rgba="1.0 1.0 1.0 1.0"/>
+  </material>
+  
+<link name="base_link">
+    <inertial>
+      <origin
+        xyz="0 0 0.348"
+        rpy="0 0 0" />
+      <mass
+        value="213.62" />
+      <inertia
+        ixx="5.60770884492841"
+        ixy="0"
+        ixz="0"
+        iyy="1"
+        iyz="-13.6550522201205"
+        izz="1" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0.348"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://mobile_printer/meshes/MPO_700_body_simple.SLDPRT.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.86667 0.9098 1 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0.348"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://mobile_printer/meshes/MPO_700_body_simple.SLDPRT.STL" />
+      </geometry>
+    </collision>
+  </link>
+
+  <link
+    name="shoulder_link">
+    <inertial>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <mass
+        value="56.212" />
+      <inertia
+        ixx="11.663244910873"
+        ixy="0"
+        ixz="-0.463117260190688"
+        iyy="1"
+        iyz="-0.325943705018541"
+        izz="1" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://mobile_printer/meshes/Arm_link1_simple.SLDPRT.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.86667 0.9098 1 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://mobile_printer/meshes/Arm_link1_simple.SLDPRT.STL" />
+      </geometry>
+    </collision>
+  </link>
+
+  <link
+    name="prism_link">
+    <inertial>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <mass
+        value="59.715" />
+      <inertia
+        ixx="1.9616662001775"
+        ixy="-0.0491005071338084"
+        ixz="0.00131624037987076"
+        iyy="0.105829672288633"
+        iyz="-1.9566286660684"
+        izz="-0.105829672288633" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://mobile_printer/meshes/Arm_link2_simple.SLDPRT.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.86667 0.9098 1 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://mobile_printer/meshes/Arm_link2_simple.SLDPRT.STL" />
+      </geometry>
+    </collision>
+  </link>
+
+  <link
+    name="elbow_link">
+    <inertial>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <mass
+        value="31.843" />
+      <inertia
+        ixx="1.14535612773492"
+        ixy="0"
+        ixz="-0.625467963004431"
+        iyy="1"
+        iyz="-1.14069726824125"
+        izz="1" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://mobile_printer/meshes/Arm_link3_simple.SLDPRT.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.86667 0.9098 1 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://mobile_printer/meshes/Arm_link3_simple.SLDPRT.STL" />
+      </geometry>
+    </collision>
+  </link>
+
+   <joint name="shoulder_joint" type="continuous">
+    <parent link="base_link"/>
+    <child link="shoulder_link"/>
+    <origin rpy="0 0 0" xyz="0 0 0.348"/>
+    <axis xyz="0 0 1"/>
+  </joint>
+
+<joint name="prism_joint" type="prismatic">
+    <parent link="shoulder_link"/>
+    <child link="prism_link"/>
+    <origin rpy="0 0 0" xyz="0.0 0 .2"/>
+    <axis xyz="0 0 1"/>
+    <limit effort="1000.0" lower="0.0" upper="1" velocity="0.5"/>
+  </joint>
+
+  <joint name="elbow_joint" type="continuous">
+    <parent link="prism_link"/>
+    <child link="elbow_link"/>
+    <origin rpy="0 0 0" xyz="0.03 0.51 0.1"/>
+    <axis xyz="0 0 1"/>
+  </joint>
+
+</robot>

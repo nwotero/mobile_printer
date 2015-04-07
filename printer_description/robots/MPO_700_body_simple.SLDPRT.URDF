@@ -1,0 +1,43 @@
+<robot
+  name="MPO_700_body_simple.SLDPRT">
+  <link
+    name="MPO_700_body_simple.SLDPRT">
+    <inertial>
+      <origin
+        xyz="9.0945E-08 0.11085 5.78379999932126E-08"
+        rpy="0 0 0" />
+      <mass
+        value="213.62" />
+      <inertia
+        ixx="5.60770884492841"
+        ixy="-4.11605519228379E-06"
+        ixz="3.85738134473503E-07"
+        iyy="-2.46366447679449E-07"
+        iyz="-13.6550522201205"
+        izz="2.46366449183256E-07" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="1.5707963267949 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://MPO_700_body_simple.SLDPRT/meshes/MPO_700_body_simple.SLDPRT.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.86667 0.9098 1 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="1.5707963267949 0 0" />
+      <geometry>
+        <mesh
+          filename="package://MPO_700_body_simple.SLDPRT/meshes/MPO_700_body_simple.SLDPRT.STL" />
+      </geometry>
+    </collision>
+  </link>
+</robot>

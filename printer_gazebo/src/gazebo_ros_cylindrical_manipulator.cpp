@@ -293,11 +293,11 @@ namespace gazebo {
     double x, y, z;
     double shoulderAngle = joints[SHOULDER]->GetAngle(0).Radian();
     double elbowAngle = joints[ELBOW]->GetAngle(0).Radian();
-    //double d2 = joints[PRISM]->
+    double d2 = joints[PRISM]->GetAngle(0).Radian(); //Bad API, this actually returns meters.
 
     x = a2*cos(shoulderAngle) + a3*cos(shoulderAngle + elbowAngle); 
     y = a2*sin(shoulderAngle) + a3*sin(shoulderAngle + elbowAngle);
-    z = 0;//d0 + d2 - d3;
+    z = d0 + d2 - d3;
 
     tf::Quaternion qt(0, 0, 0, 1);
     tf::Vector3 vt(x, y, z);
