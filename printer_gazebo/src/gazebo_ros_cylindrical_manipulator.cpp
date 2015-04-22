@@ -90,7 +90,7 @@ namespace gazebo {
           this->prism_joint_name_ = _sdf->GetElement("prismJoint")->Get<std::string>();
         }
 
-    this->torque = 5.0;
+    this->torque = 5000.0;
     if (!_sdf->HasElement("torque")) {
       ROS_WARN("GazeboRosCylindricalManipulator Plugin (ns = %s) missing <torque>, defaults to %f",
           this->robot_namespace_.c_str(), this->torque);
@@ -268,11 +268,11 @@ namespace gazebo {
 
   void GazeboRosCylindricalManipulator::cmdVelCallback(
       const geometry_msgs::Twist::ConstPtr& cmd_msg) {
-
     boost::mutex::scoped_lock scoped_lock(lock);
     x_ = cmd_msg->linear.x;
     y_ = cmd_msg->linear.y;
     z_ = cmd_msg->linear.z;
+    ROS_INFO("Got new command! x = %f, y = %f, z = %f", x_, y_, z_);
   }
 
   void GazeboRosCylindricalManipulator::QueueThread() {

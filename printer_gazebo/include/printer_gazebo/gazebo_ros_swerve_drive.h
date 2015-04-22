@@ -48,7 +48,10 @@ namespace gazebo {
       physics::ModelPtr parent;
       event::ConnectionPtr update_connection_;
 
-      std::string swerve_joint_name_;
+      std::string left_front_swerve_joint_name_;
+      std::string right_front_swerve_joint_name_;
+      std::string left_rear_swerve_joint_name_;
+      std::string right_rear_swerve_joint_name_;
       std::string left_front_joint_name_;
       std::string right_front_joint_name_;
       std::string left_rear_joint_name_;
@@ -60,7 +63,7 @@ namespace gazebo {
       double wheel_speed_[4];
       double swerve_speed_;
 
-      physics::JointPtr swerveJoint;
+      physics::JointPtr swerveJoints[4];
       double swerveAngle;
       physics::JointPtr joints[4];
 

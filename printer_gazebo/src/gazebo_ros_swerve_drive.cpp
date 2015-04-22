@@ -58,12 +58,36 @@ namespace gazebo {
       this->broadcast_tf_ = _sdf->GetElement("broadcastTF")->Get<bool>();
     }
 
-    this->swerve_joint_name_ = "swerve_joint";
-    if (!_sdf->HasElement("swerveJoint")) {
-      ROS_WARN("GazeboRosSwerveDrive Plugin (ns = %s) missing <swerveJoint>, defaults to \"%s\"",
-          this->robot_namespace_.c_str(), this->swerve_joint_name_.c_str());
+    this->left_front_swerve_joint_name_ = "swerve_left_front_joint";
+    if (!_sdf->HasElement("swerveLeftFrontJoint")) {
+      ROS_WARN("GazeboRosSwerveDrive Plugin (ns = %s) missing <swerveLeftFrontJoint>, defaults to \"%s\"",
+          this->robot_namespace_.c_str(), this->left_front_swerve_joint_name_.c_str());
     } else {
-      this->swerve_joint_name_ = _sdf->GetElement("swerveJoint")->Get<std::string>();
+      this->left_front_swerve_joint_name_ = _sdf->GetElement("swerveLeftFrontJoint")->Get<std::string>();
+    }
+
+    this->right_front_swerve_joint_name_ = "swerve_right_front_joint";
+    if (!_sdf->HasElement("swerveRightFrontJoint")) {
+      ROS_WARN("GazeboRosSwerveDrive Plugin (ns = %s) missing <swerveRightFrontJoint>, defaults to \"%s\"",
+          this->robot_namespace_.c_str(), this->right_front_swerve_joint_name_.c_str());
+    } else {
+      this->right_front_swerve_joint_name_ = _sdf->GetElement("swerveRightFrontJoint")->Get<std::string>();
+    }
+
+    this->left_rear_swerve_joint_name_ = "swerve_left_back_joint";
+    if (!_sdf->HasElement("swerveLeftBackJoint")) {
+      ROS_WARN("GazeboRosSwerveDrive Plugin (ns = %s) missing <swerveLeftBackJoint>, defaults to \"%s\"",
+          this->robot_namespace_.c_str(), this->left_rear_swerve_joint_name_.c_str());
+    } else {
+      this->left_rear_swerve_joint_name_ = _sdf->GetElement("swerveLeftBackJoint")->Get<std::string>();
+    }
+
+    this->right_rear_swerve_joint_name_ = "swerve_right_back_joint";
+    if (!_sdf->HasElement("swerveRightBackJoint")) {
+      ROS_WARN("GazeboRosSwerveDrive Plugin (ns = %s) missing <swerveRightBackJoint>, defaults to \"%s\"",
+          this->robot_namespace_.c_str(), this->right_rear_swerve_joint_name_.c_str());
+    } else {
+      this->right_rear_swerve_joint_name_ = _sdf->GetElement("swerveRightBackJoint")->Get<std::string>();
     }
 
     // TODO write error if joint doesn't exist!
@@ -83,7 +107,7 @@ namespace gazebo {
           this->right_front_joint_name_ = _sdf->GetElement("rightFrontJoint")->Get<std::string>();
         }
 
-	this->left_rear_joint_name_ = "left_rear_joint";
+	this->left_rear_joint_name_ = "left_back_joint";
 	if (!_sdf->HasElement("leftRearJoint")) {
 	  ROS_WARN("GazeboRosSwerveDrive Plugin (ns = %s) missing <leftRearJoint>, defaults to \"%s\"",
 		  this->robot_namespace_.c_str(), this->left_rear_joint_name_.c_str());
@@ -91,7 +115,7 @@ namespace gazebo {
 	  this->left_rear_joint_name_ = _sdf->GetElement("leftRearJoint")->Get<std::string>();
 	}
 
-    this->right_rear_joint_name_ = "right_rear_joint";
+    this->right_rear_joint_name_ = "right_back_joint";
     if (!_sdf->HasElement("rightRearJoint")) {
       ROS_WARN("GazeboRosSwerveDrive Plugin (ns = %s) missing <rightRearJoint>, defaults to \"%s\"",
           this->robot_namespace_.c_str(), this->right_rear_joint_name_.c_str());
@@ -123,7 +147,7 @@ namespace gazebo {
       this->wheel_diameter_ = _sdf->GetElement("wheelDiameter")->Get<double>();
     }
 
-    this->torque = 5.0;
+    this->torque = 5000.0;
     if (!_sdf->HasElement("torque")) {
       ROS_WARN("GazeboRosSwerveDrive Plugin (ns = %s) missing <torque>, defaults to %f",
           this->robot_namespace_.c_str(), this->torque);
@@ -196,15 +220,46 @@ namespace gazebo {
     joints[LEFT_REAR] = this->parent->GetJoint(left_rear_joint_name_);
     joints[RIGHT_REAR] = this->parent->GetJoint(right_rear_joint_name_);
 
-    swerveJoint = this->parent->GetJoint(swerve_joint_name_);
+    swerveJoints[LEFT_FRONT] = this->parent->GetJoint(left_front_swerve_joint_name_);
+    swerveJoints[RIGHT_FRONT] = this->parent->GetJoint(right_front_swerve_joint_name_);
+    swerveJoints[LEFT_REAR] = this->parent->GetJoint(left_rear_swerve_joint_name_);
+    swerveJoints[RIGHT_REAR] = this->parent->GetJoint(right_rear_swerve_joint_name_);
 
-    if (!swerveJoint) {
+    if (!swerveJoints[LEFT_FRONT]) {
       char error[200];
       snprintf(error, 200,
           "GazeboRosSwerveDrive Plugin (ns = %s) couldn't get swerve joint named \"%s\"",
-          this->robot_namespace_.c_str(), this->swerve_joint_name_.c_str());
+          this->robot_namespace_.c_str(), this->left_front_swerve_joint_name_.c_str());
       gzthrow(error);
     }
+    ROS_INFO("Got left front swerve!");
+
+    if (!swerveJoints[RIGHT_FRONT]) {
+      char error[200];
+      snprintf(error, 200,
+          "GazeboRosSwerveDrive Plugin (ns = %s) couldn't get swerve joint named \"%s\"",
+          this->robot_namespace_.c_str(), this->right_front_swerve_joint_name_.c_str());
+      gzthrow(error);
+    }
+    ROS_INFO("Got right front swerve!");
+
+    if (!swerveJoints[LEFT_REAR]) {
+      char error[200];
+      snprintf(error, 200,
+          "GazeboRosSwerveDrive Plugin (ns = %s) couldn't get swerve joint named \"%s\"",
+          this->robot_namespace_.c_str(), this->left_rear_swerve_joint_name_.c_str());
+      gzthrow(error);
+    }
+    ROS_INFO("Got left back swerve!");
+
+    if (!swerveJoints[RIGHT_REAR]) {
+      char error[200];
+      snprintf(error, 200,
+          "GazeboRosSwerveDrive Plugin (ns = %s) couldn't get swerve joint named \"%s\"",
+          this->robot_namespace_.c_str(), this->right_rear_swerve_joint_name_.c_str());
+      gzthrow(error);
+    }
+    ROS_INFO("Got right back swerve!");
 
     if (!joints[LEFT_FRONT]) {
       char error[200];
@@ -243,7 +298,10 @@ namespace gazebo {
     joints[LEFT_REAR]->SetMaxForce(0, torque);
     joints[RIGHT_REAR]->SetMaxForce(0, torque);
 
-    swerveJoint->SetMaxForce(0, torque);
+    swerveJoints[LEFT_FRONT]->SetMaxForce(0, torque);
+    swerveJoints[RIGHT_FRONT]->SetMaxForce(0, torque);
+    swerveJoints[LEFT_REAR]->SetMaxForce(0, torque);
+    swerveJoints[RIGHT_REAR]->SetMaxForce(0, torque);
 
     // Make sure the ROS node for Gazebo has already been initialized
     if (!ros::isInitialized())
@@ -296,7 +354,11 @@ namespace gazebo {
       joints[RIGHT_FRONT]->SetVelocity(0, wheel_speed_[RIGHT_FRONT] / wheel_diameter_);
       joints[LEFT_REAR]->SetVelocity(0, wheel_speed_[LEFT_REAR] / wheel_diameter_);
       joints[RIGHT_REAR]->SetVelocity(0, wheel_speed_[RIGHT_REAR] / wheel_diameter_);
-      swerveJoint->SetVelocity(0, swerve_speed_);
+      
+      swerveJoints[LEFT_FRONT]->SetVelocity(0, swerve_speed_);
+      swerveJoints[RIGHT_FRONT]->SetVelocity(0, swerve_speed_);
+      swerveJoints[LEFT_REAR]->SetVelocity(0, swerve_speed_);
+      swerveJoints[RIGHT_REAR]->SetVelocity(0, swerve_speed_);
 
       last_update_time_+= common::Time(update_period_);
 
@@ -313,16 +375,22 @@ namespace gazebo {
   }
 
   void GazeboRosSwerveDrive::getVelocities() {
+    const double pi = 3.14159;
     boost::mutex::scoped_lock scoped_lock(lock);
+    swerveAngle = swerveJoints[LEFT_FRONT]->GetAngle(0).Degree();
 
     double vr = sqrt(pow(x_, 2) + pow(y_, 2));
-    double swerve_angle_d = atan2(y_, x_);
-    swerveAngle = swerveJoint->GetAngle(0).Degree();
+    double swerve_angle_d = (x_ == 0 && y_ == 0) ? swerveAngle : 
+      (x_ != 0) ? atan2(y_, x_) : 
+      (y_ > 0) ? pi/2 : -1*pi/2;
+    ROS_INFO("Current swerve angle: %f", swerveAngle);
+    ROS_INFO("Update swerve angle: %f", swerve_angle_d*180/pi);
     double va = rot_;
 
     const double kp = 0.5;
     const double tolerance = 0.0174532925;
     double error = swerve_angle_d - swerveAngle;
+    ROS_INFO("Error = %f", error);
 
     if (error > tolerance){
       wheel_speed_[RIGHT_FRONT] = 0;
@@ -339,6 +407,15 @@ namespace gazebo {
     wheel_speed_[LEFT_FRONT] = vr - va * wheel_separation_ / 2.0;
     wheel_speed_[LEFT_REAR] = vr - va * wheel_separation_ / 2.0;
 
+    // ROS_INFO("Updating joint velocities.\nDesired linear velocities = x: %f, y: %f, Angular = %f",
+    //   x_, y_, rot_);
+
+    // ROS_INFO("Wheel Velocities = RF: %f, RB: %f, LF: %f, LB: %f", 
+      //wheel_speed_[RIGHT_FRONT], wheel_speed_[RIGHT_REAR], 
+      //wheel_speed_[LEFT_FRONT], wheel_speed_[LEFT_REAR]);
+
+    //ROS_INFO("Swerve speed = %f", swerve_speed_);
+
   }
 
   void GazeboRosSwerveDrive::cmdVelCallback(
@@ -348,6 +425,8 @@ namespace gazebo {
     x_ = cmd_msg->linear.x;
     y_ = cmd_msg->linear.y;
     rot_ = cmd_msg->angular.z;
+
+    ROS_INFO("Got command! x: %f, y: %f, rot: %f", x_, y_, rot_);
   }
 
   void GazeboRosSwerveDrive::QueueThread() {
